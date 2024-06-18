@@ -12,6 +12,9 @@ def get_all_usuarios():
     return jsonify([usuario.serialize() for usuario in usuarios])
 
 
+
+
+
 #Traer un usuario
 def get_usuario(usuario_id):
     usuario = Usuario.get_by_id(usuario_id)
