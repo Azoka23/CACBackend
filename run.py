@@ -1,8 +1,10 @@
 from flask import Flask
 from app.views import index, get_all_usuarios, create_usuario, get_usuario, update_usuario, delete_usuario
-
+from app.views import init_app
 # Creación de la instancia de Flask
 app = Flask(__name__)
+
+init_app(app)
 
 # Asociación de rutas con vistas
 #@app.route('/nombre-ruta', methods=['GET'])

@@ -1,5 +1,5 @@
 from datetime import datetime
-#from app.database import get_db
+from app.database import get_db
 
 #constructor para crear un usuario
 class Usuario:
@@ -13,20 +13,8 @@ class Usuario:
         self.pais_origen = pais_origen
         self.password = password
 
-    #metodo para...?
-    #def actualizar_email(self, nuevo_email):
-        #self.email = nuevo_email
 
-    #metodo para mostrar usuario?
-    #def mostrar_info(self):
-        #return (f"Nombre: {self.nombre} {self.apellido}, Fecha de Nacimiento: {self.fecha_nacimiento}, "
-                #f"Documento: {self.documento}, Teléfono: {self.telefono}, Email: {self.email}, "
-                #f"País de Origen: {self.pais_origen}")
-    
-    
-    
-
-    #metodo para borrar un usuario
+    #Metodo para borrar un usuario
 def delete(self):
         db = get_db()
         cursor = db.cursor()
@@ -35,7 +23,7 @@ def delete(self):
         cursor.close()
 
 
-    #metodo para buscar un usuario
+    #Metodo para buscar un usuario
 @staticmethod
 def get_by_id(usuario_id):
     db = get_db()
@@ -49,7 +37,7 @@ fecha_nacimiento=row[3], documento=row[4], telefono=row[5], email=row[6],
 pais_origen=row[7], password=row[8])
     return None
 
-    #metodo para listar todos los usuario
+    #Metodo para listar todos los usuario
 @staticmethod
 def get_all():
     db = get_db()
@@ -62,7 +50,7 @@ for row in rows]
     cursor.close()
     return usuarios
 
-    #metodo para actualizar datos de un
+    #Metodo para actualizar datos de un
     #  usuario primero tiene que buscarlo,
     #luego hacer la modificacion y por ultimo
     #guardarlo
