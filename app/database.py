@@ -1,6 +1,6 @@
 import os
 import mysql.connector
-from flask import Flask,g
+from flask import g
 from dotenv import load_dotenv
 
 
