@@ -1,7 +1,8 @@
 import os
 import mysql.connector
-from flask import g
+from flask import Flask,g
 from dotenv import load_dotenv
+
 
 # Cargar las variables de entorno desde un archivo .env
 load_dotenv()
@@ -17,10 +18,10 @@ DATABASE_CONFIG = {
 
 # Función para obtener la conexión a la base de datos
 def get_db():
-    # Si no existe una conexión en el contexto global 'g', crear una nueva
-    if 'db' not in g:
-        g.db = mysql.connector.connect(**DATABASE_CONFIG)
-    return g.db
+      if 'db' not in g:
+           g.db=mysql.connector.connect(**DATABASE_CONFIG)
+    
+      return g.db
 
 # Función para cerrar la conexión a la base de datos
 def close_db(e=None):
