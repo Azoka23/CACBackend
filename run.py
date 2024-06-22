@@ -1,8 +1,7 @@
 from flask import Flask
-from app.views import index, get_all_usuarios, create_usuario, get_usuario, update_usuario, delete_usuario
-from app.database import init_app
+from app.views import get_all_usuarios, create_usuario, get_usuario, update_usuario, delete_usuario
+from app.database import init_app, get_db
 import logging
-from app.database import get_db
 
 # Configura el nivel de logging
 logging.basicConfig(level=logging.DEBUG)
@@ -10,15 +9,17 @@ logging.basicConfig(level=logging.DEBUG)
 # Creación de la instancia de Flask
 app = Flask(__name__)
 app.config['DEBUG'] = True
+
 # Inicialización de la aplicación con manejo de base de datos
 init_app(app)
 
-# Ejemplo de uso de logging para la conexión a la base de datos
-try:
-    db_connection = get_db()  # Asumiendo que 'get_db()' es tu función para conectar a la base de datos
-    logging.debug('Conexión exitosa a la base de datos')
-except Exception as e:
-    logging.error(f'Error al conectar a la base de datos: {str(e)}')
+# Asegurarse de que el código que necesita el contexto de la aplicación esté dentro de app.app_context()
+with app.app_context():
+    try:
+        db_connection = get_db()  # Conectar a la base de datos
+        logging.debug('Conexión exitosa a la base de datos')
+    except Exception as e:
+        logging.error(f'Error al conectar a la base de datos: {str(e)}')
 
 # Asociación de rutas con vistas usando decoradores
 @app.route('/api/usuarios/', methods=['GET'])
@@ -40,6 +41,11 @@ def route_update_usuario(usuario_id):
 @app.route('/api/usuarios/<int:usuario_id>', methods=['DELETE'])
 def route_delete_usuario(usuario_id):
     return delete_usuario(usuario_id)
+
+# Ruta de prueba para asegurar que la aplicación está corriendo
+@app.route('/')
+def index():
+    return 'Hello, Flask!'
 
 # Punto de entrada para ejecutar la aplicación
 if __name__ == '__main__':

@@ -59,3 +59,18 @@ class Usuario:
             """, (self.apellido, self.nombre, self.fecha_nacimiento, self.documento, self.telefono, self.email, self.pais_origen, self.password))
             self.id_usuario = cursor.lastrowid
         db.commit()
+
+
+# Método para serializar el objeto Usuario a un diccionario
+    def serialize(self):
+        return {
+            'id_usuario': self.id_usuario,
+            'apellido': self.apellido,
+            'nombre': self.nombre,
+            'fecha_nacimiento': self.fecha_nacimiento,
+            'documento': self.documento,
+            'telefono': self.telefono,
+            'email': self.email,
+            'pais_origen': self.pais_origen,
+            'password': self.password
+        }

@@ -17,11 +17,23 @@ DATABASE_CONFIG = {
 }
 
 # Función para obtener la conexión a la base de datos
-def get_db():
-      if 'db' not in g:
-           g.db=mysql.connector.connect(**DATABASE_CONFIG)
+#def get_db():
+      #if 'db' not in g:
+           #g.db=mysql.connector.connect(**DATABASE_CONFIG)
     
-      return g.db
+      #return g.db
+
+def get_db():
+    if 'db' not in g:
+        try:
+            g.db = mysql.connector.connect(**DATABASE_CONFIG)
+            cursor = g.db.cursor()
+            cursor.execute("USE Boleteria")
+            print("Conexión a la base de datos y selección de base de datos exitosa")
+        except mysql.connector.Error as err:
+            print(f"Error al conectar a la base de datos: {err}")
+    return g.db
+
 
 # Función para cerrar la conexión a la base de datos
 def close_db(e=None):
