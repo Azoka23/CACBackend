@@ -10,12 +10,29 @@ def get_all_usuarios():
     usuarios = Usuario.get_all()
     return jsonify([usuario.serialize() for usuario in usuarios])
 
-# Traer un usuario
+# Traer un usuario por id
 def get_usuario(usuario_id):
     usuario = Usuario.get_by_id(usuario_id)
     if not usuario:
         return jsonify({'message': 'Usuario not found'}), 404
     return jsonify(usuario.serialize())
+
+
+
+# Traer un usuario por nombre
+
+def get_usuarios_por_nombre():
+    nombre = request.args.get('nombre', '')
+    if not nombre:
+        return jsonify({'message': 'Nombre is required'}), 400
+
+    usuarios = Usuario.get_by_nombre(nombre)
+    if not usuarios:
+        return jsonify({'message': 'No users found'}), 404
+
+    return jsonify([usuario.serialize() for usuario in usuarios])
+
+
 
 # Crear un usuario
 def create_usuario():

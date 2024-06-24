@@ -1,5 +1,5 @@
 from flask import Flask
-from app.views import get_all_usuarios, create_usuario, get_usuario, update_usuario, delete_usuario
+from app.views import get_all_usuarios, get_usuarios_por_nombre, create_usuario, get_usuario, update_usuario, delete_usuario
 from app.database import init_app, get_db
 import logging
 
@@ -33,6 +33,11 @@ def route_create_usuario():
 @app.route('/api/usuarios/<int:usuario_id>', methods=['GET'])
 def route_get_usuario(usuario_id):
     return get_usuario(usuario_id)
+
+@app.route('/api/usuarios/nombre', methods=['GET'])
+def usuarios_por_nombre():
+    return get_usuarios_por_nombre()
+
 
 @app.route('/api/usuarios/<int:usuario_id>', methods=['PUT'])
 def route_update_usuario(usuario_id):

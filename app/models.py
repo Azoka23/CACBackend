@@ -21,7 +21,7 @@ class Usuario:
         db.commit()
         cursor.close()
 
-    # Método para buscar un usuario
+    # Método para buscar un usuario por id
     @staticmethod
     def get_by_id(usuario_id):
         db = get_db()
@@ -32,6 +32,19 @@ class Usuario:
         if row:
             return Usuario(id_usuario=row[0], apellido=row[1], nombre=row[2], fecha_nacimiento=row[3], documento=row[4], telefono=row[5], email=row[6], pais_origen=row[7], password=row[8])
         return None
+    
+    # Método para buscar un usuario por nombre
+    @staticmethod
+    def get_by_nombre(nombre):
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM usuarios WHERE nombre LIKE %s", (f'%{nombre}%',))
+        rows = cursor.fetchall()
+        cursor.close()
+        usuarios = []
+        for row in rows:
+            usuarios.append(Usuario(id_usuario=row[0], apellido=row[1], nombre=row[2], fecha_nacimiento=row[3], documento=row[4], telefono=row[5], email=row[6], pais_origen=row[7], password=row[8]))
+        return usuarios
 
     # Método para listar todos los usuarios
     @staticmethod
