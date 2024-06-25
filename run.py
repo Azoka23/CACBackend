@@ -2,6 +2,7 @@ from flask import Flask
 from app.views import get_all_usuarios, get_usuarios_por_nombre, create_usuario, get_usuario, update_usuario, delete_usuario
 from app.database import init_app, get_db
 import logging
+from flask_cors import CORS
 
 # Configura el nivel de logging
 logging.basicConfig(level=logging.DEBUG)
@@ -9,6 +10,9 @@ logging.basicConfig(level=logging.DEBUG)
 # Creación de la instancia de Flask
 app = Flask(__name__)
 app.config['DEBUG'] = True
+
+# Habilitar CORS
+CORS(app)
 
 # Inicialización de la aplicación con manejo de base de datos
 init_app(app)
@@ -35,9 +39,8 @@ def route_get_usuario(usuario_id):
     return get_usuario(usuario_id)
 
 @app.route('/api/usuarios/nombre', methods=['GET'])
-def usuarios_por_nombre():
+def route_get_usuarios_por_nombre():
     return get_usuarios_por_nombre()
-
 
 @app.route('/api/usuarios/<int:usuario_id>', methods=['PUT'])
 def route_update_usuario(usuario_id):
