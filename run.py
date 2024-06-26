@@ -12,7 +12,8 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 # Habilitar CORS
-CORS(app)
+#CORS(app)
+CORS(app, resources={r"/api/*": {"origins": "*"}})  # Asegúrate de que esto permita los orígenes necesarios
 
 # Inicialización de la aplicación con manejo de base de datos
 init_app(app)
