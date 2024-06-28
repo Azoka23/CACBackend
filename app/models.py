@@ -58,20 +58,41 @@ class Usuario:
         return usuarios
 
     # Método para guardar (crear/actualizar) un usuario
+    # def save(self):
+    #     db = get_db()
+    #     cursor = db.cursor()
+    #     if self.id_usuario:
+    #         cursor.execute("""
+    #             UPDATE usuarios SET apellido = %s, nombre = %s, fecha_nacimiento = %s, documento = %s, telefono = %s, email = %s, pais_origen = %s, password = %s
+    #             WHERE id_usuario = %s
+    #         """, (self.apellido, self.nombre, self.fecha_nacimiento, self.documento, self.telefono, self.email, self.pais_origen, self.password, self.id_usuario))
+    #     else:
+    #         cursor.execute("""
+    #             INSERT INTO usuarios (apellido, nombre, fecha_nacimiento, documento, telefono, email, pais_origen, password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    #         """, (self.apellido, self.nombre, self.fecha_nacimiento, self.documento, self.telefono, self.email, self.pais_origen, self.password))
+    #         self.id_usuario = cursor.lastrowid
+    #     db.commit()
+
     def save(self):
         db = get_db()
         cursor = db.cursor()
-        if self.id_usuario:
-            cursor.execute("""
-                UPDATE usuarios SET apellido = %s, nombre = %s, fecha_nacimiento = %s, documento = %s, telefono = %s, email = %s, pais_origen = %s, password = %s
-                WHERE id_usuario = %s
-            """, (self.apellido, self.nombre, self.fecha_nacimiento, self.documento, self.telefono, self.email, self.pais_origen, self.password, self.id_usuario))
-        else:
-            cursor.execute("""
-                INSERT INTO usuarios (apellido, nombre, fecha_nacimiento, documento, telefono, email, pais_origen, password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            """, (self.apellido, self.nombre, self.fecha_nacimiento, self.documento, self.telefono, self.email, self.pais_origen, self.password))
-            self.id_usuario = cursor.lastrowid
-        db.commit()
+        try:
+            if self.id_usuario:
+                cursor.execute("""
+                    UPDATE usuarios SET apellido = %s, nombre = %s, fecha_nacimiento = %s, documento = %s, telefono = %s, email = %s, pais_origen = %s, password = %s
+                    WHERE id_usuario = %s
+                """, (self.apellido, self.nombre, self.fecha_nacimiento, self.documento, self.telefono, self.email, self.pais_origen, self.password, self.id_usuario))
+            else:
+                cursor.execute("""
+                    INSERT INTO usuarios (apellido, nombre, fecha_nacimiento, documento, telefono, email, pais_origen, password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                """, (self.apellido, self.nombre, self.fecha_nacimiento, self.documento, self.telefono, self.email, self.pais_origen, self.password))
+                self.id_usuario = cursor.lastrowid
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            raise e
+        finally:
+            cursor.close()
 
 
 # Método para serializar el objeto Usuario a un diccionario
